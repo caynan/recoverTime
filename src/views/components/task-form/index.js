@@ -9,27 +9,39 @@ class TaskForm extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {title: ''};
+    // Initial state
+    this.state = {title: '', duration: 0};
 
-    this.onChange = ::this.onChange;
+    // This has to be done FOR ALL methods, so we're binding them, google 'react method bing es6' to understand what is going on
+    this.onChangeTitle = ::this.onChangeTitle;
+    this.onChangeDuration = ::this.onChangeDuration;
     this.onKeyUp = ::this.onKeyUp;
     this.onSubmit = ::this.onSubmit;
   }
 
+  // Whenever we need to clear the input
   clearInput() {
-    this.setState({title: ''});
+    this.setState({title: '', duration: 0});
   }
 
-  onChange(event) {
+  // When we time anything on the title input, this method is triggered
+  onChangeTitle(event) {
     this.setState({title: event.target.value});
   }
 
+  // When we time anything on the duration input, this method is triggered
+  onChangeDuration(event) {
+    this.setState({duration: event.target.value});
+  }
+
+  // As far as I know, this is only used by the tests
   onKeyUp(event) {
     if (event.keyCode === 27) {
       this.clearInput();
     }
   }
 
+  // TODO: It's called when we submit the form, note that now it's only handling the title, you have to modify
   onSubmit(event) {
     event.preventDefault();
     const title = this.state.title.trim();
@@ -37,6 +49,8 @@ class TaskForm extends Component {
     this.clearInput();
   }
 
+
+  // TODO: We need to investigate what the `ref` attr is doing/used for.
   render() {
     return (
       <form className="task-form" onSubmit={this.onSubmit} noValidate>
@@ -45,12 +59,24 @@ class TaskForm extends Component {
           autoFocus
           className="task-form__input"
           maxLength="64"
-          onChange={this.onChange}
+          onChange={this.onChangeTitle}
           onKeyUp={this.onKeyUp}
-          placeholder="What needs to be done?"
+          placeholder="What are you working on?"
           ref={c => this.titleInput = c}
           type="text"
           value={this.state.title}
+        />
+        <input
+         autoComplete="off"
+         autoFocus
+         className="task-form__input"
+         maxLength="64"
+         onChange={this.onChangeDuration}
+         onKeyUp={this.onKeyUp}
+         placeholder="For How Long?"
+         ref={c => this.titleInput = c}
+         type="text"
+         value={this.state.duration}
         />
       </form>
     );
