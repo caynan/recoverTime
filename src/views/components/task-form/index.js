@@ -53,32 +53,35 @@ class TaskForm extends Component {
   // TODO: We need to investigate what the `ref` attr is doing/used for.
   render() {
     return (
-      <form className="task-form" onSubmit={this.onSubmit} noValidate>
-        <input
-          autoComplete="off"
-          autoFocus
-          className="task-form__input"
-          maxLength="64"
-          onChange={this.onChangeTitle}
-          onKeyUp={this.onKeyUp}
-          placeholder="What are you working on?"
-          ref={c => this.titleInput = c}
-          type="text"
-          value={this.state.title}
-        />
-        <input
-         autoComplete="off"
-         autoFocus
-         className="task-form__input"
-         maxLength="64"
-         onChange={this.onChangeDuration}
-         onKeyUp={this.onKeyUp}
-         placeholder="For How Long?"
-         ref={c => this.titleInput = c}
-         type="text"
-         value={this.state.duration}
-        />
-      </form>
+        <div>
+        <form className="task-form"  noValidate>
+          <input
+            autoComplete="off"
+            autoFocus
+            className="task-form__input"
+            maxLength="64"
+            onChange={this.onChangeTitle}
+            onKeyUp={this.onKeyUp}
+            placeholder="What are you working on?"
+            ref={c => this.titleInput = c}
+            type="text"
+            value={this.state.title}
+          />
+          <input
+           autoComplete="off"
+           autoFocus
+           className="task-form__input"
+           maxLength="64"
+           onChange={this.onChangeDuration}
+           onKeyUp={this.onKeyUp}
+           placeholder="For How Long?"
+           ref={c => this.titleInput = c}
+           type="text"
+           value={this.state.duration}
+          />
+        </form>
+        <div className="text" color = "green" onClick={this.onSubmit}>Add Task</div>
+      </div>
     );
   }
 }
