@@ -26,12 +26,16 @@ class TaskForm extends Component {
 
   // When we time anything on the title input, this method is triggered
   onChangeTitle(event) {
-    this.setState({title: event.target.value});
+    event.preventDefault();
+    const title = this.refs.title.value;
+    this.setState({title: title});
   }
 
   // When we time anything on the duration input, this method is triggered
   onChangeDuration(event) {
-    this.setState({duration: event.target.value});
+    event.preventDefault();
+    const duration = this.refs.duration.value;
+    this.setState({duration: event.duration});
   }
 
   // As far as I know, this is only used by the tests
@@ -44,8 +48,10 @@ class TaskForm extends Component {
   // TODO: It's called when we submit the form, note that now it's only handling the title, you have to modify
   onSubmit(event) {
     event.preventDefault();
-    const title = this.state.title.trim();
-    if (title.length) this.props.createTask(title);
+    const title = this.refs.title.value;
+    const duration = this.refs.duration.value;
+
+    if (title.length) this.props.createTask(title, duration);
     this.clearInput();
   }
 
@@ -53,9 +59,13 @@ class TaskForm extends Component {
   // TODO: We need to investigate what the `ref` attr is doing/used for.
   render() {
     return (
-        <div>
-        <form className="task-form"  noValidate>
-          <input
+
+      <div>
+        <h4>Create a task</h4>
+        <form  className="task-form" noValidate>
+          <div className="form-group">
+
+            <input
             autoComplete="off"
             autoFocus
             className="task-form__input"
@@ -63,10 +73,11 @@ class TaskForm extends Component {
             onChange={this.onChangeTitle}
             onKeyUp={this.onKeyUp}
             placeholder="What are you working on?"
-            ref={c => this.titleInput = c}
+            ref="title"
             type="text"
             value={this.state.title}
           />
+
           <input
            autoComplete="off"
            autoFocus
@@ -75,12 +86,18 @@ class TaskForm extends Component {
            onChange={this.onChangeDuration}
            onKeyUp={this.onKeyUp}
            placeholder="For How Long?"
-           ref={c => this.titleInput = c}
+           ref="duration"
            type="text"
            value={this.state.duration}
           />
+              <button
+            className="btn task-item__button"
+            onClick={this.onSubmit}
+            type="button">
+            
+          done</button>
+          </div>
         </form>
-        <div className="text" color = "green" onClick={this.onSubmit}>Add Task</div>
       </div>
     );
   }

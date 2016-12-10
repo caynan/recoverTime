@@ -77,6 +77,32 @@ class TaskItem extends Component {
     );
   }
 
+  renderDuration(task) {
+    return (
+      <div
+        className="task-item__title"
+        ref="duration"
+        tabIndex="0">{task.duration}
+      </div>
+    );
+  }
+
+  renderDurationInput(task) {
+    return (
+      <input
+        autoComplete="off"
+        autoFocus
+        className="task-item__input"
+        defaultValue={task.duration}
+        maxLength="64"
+        onBlur={this.saveTitle}
+        onKeyUp={this.onKeyUp}
+        ref="duration"
+        type="text"
+      />
+    );
+  }
+
   renderTitleInput(task) {
     return (
       <input
@@ -115,6 +141,10 @@ class TaskItem extends Component {
 
         <div className="cell">
           {editing ? this.renderTitleInput(task) : this.renderTitle(task)}
+        </div>
+
+        <div className="cell">
+          {this.renderDuration(task)}
         </div>
 
         <div className="cell">
