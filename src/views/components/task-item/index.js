@@ -112,7 +112,7 @@ class TaskItem extends Component {
               onBlur={this.saveTitle}
               onKeyUp={this.onKeyUp}
               ref="duration"
-              type="text"
+              type="number"
             />
         </div>
     </div>

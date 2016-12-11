@@ -89,7 +89,7 @@ class TaskForm extends Component {
                  onKeyUp={this.onKeyUp}
                  placeholder="For How Long?"
                  ref="duration"
-                 type="text"
+                 type="number"
                  value={this.state.duration}
                 />
               </div>
