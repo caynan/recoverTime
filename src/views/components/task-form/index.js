@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 
+
 class TaskForm extends Component {
   static propTypes = {
     createTask: PropTypes.func.isRequired
@@ -10,7 +11,7 @@ class TaskForm extends Component {
     super(props, context);
 
     // Initial state
-    this.state = {title: '', duration: 0};
+    this.state = {title: '', duration: ''};
 
     // This has to be done FOR ALL methods, so we're binding them, google 'react method bing es6' to understand what is going on
     this.onChangeTitle = ::this.onChangeTitle;
@@ -21,7 +22,7 @@ class TaskForm extends Component {
 
   // Whenever we need to clear the input
   clearInput() {
-    this.setState({title: '', duration: 0});
+    this.setState({title: '', duration: ''});
   }
 
   // When we time anything on the title input, this method is triggered
@@ -61,12 +62,11 @@ class TaskForm extends Component {
     return (
 
       <div>
-        <h4>Create a task</h4>
         <form  className="task-form" noValidate>
-          <div className="form-group">
+          <div className="cell">
 
             <input
-            autoComplete="off"
+            autoComplete="on"
             autoFocus
             className="task-form__input"
             maxLength="64"
@@ -77,25 +77,33 @@ class TaskForm extends Component {
             type="text"
             value={this.state.title}
           />
-
-          <input
-           autoComplete="off"
-           autoFocus
-           className="task-form__input"
-           maxLength="64"
-           onChange={this.onChangeDuration}
-           onKeyUp={this.onKeyUp}
-           placeholder="For How Long?"
-           ref="duration"
-           type="text"
-           value={this.state.duration}
-          />
-              <button
-            className="btn task-item__button"
-            onClick={this.onSubmit}
-            type="button">
+          </div>
+          <div className="cell">
+              <div className="cell">
+                <input
+                 autoComplete="on"
+                 autoFocus
+                 className="task-form__input"
+                 maxLength="64"
+                 onChange={this.onChangeDuration}
+                 onKeyUp={this.onKeyUp}
+                 placeholder="For How Long?"
+                 ref="duration"
+                 type="text"
+                 value={this.state.duration}
+                />
+              </div>
+              <div className="cell">
+                <button
+                  className="btn task-item__button"
+                  onClick={this.onSubmit}
+                  type="button">
+                  <svg className="icon" width="24" height="24" viewBox="0 0 24 24">
+                      <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                  </svg>
             
-          done</button>
+                </button>
+              </div>
           </div>
         </form>
       </div>

@@ -39,10 +39,11 @@ class TaskItem extends Component {
   saveTitle(event) {
     if (this.state.editing) {
       const { task } = this.props;
-      const title = event.target.value.trim();
-
-      if (title.length && title !== task.title) {
-        this.props.updateTask(task, {title});
+     event.preventDefault();
+    const title = this.refs.title.value;
+    const duration = this.refs.duration.value;
+      if (title.length && duration !== task.duration) {
+        this.props.updateTask(task, {title, duration});
       }
 
       this.stopEditing();
@@ -79,29 +80,45 @@ class TaskItem extends Component {
 
   renderDuration(task) {
     return (
-      <div
+    <div className="cell">
+     <div className="cell">
+
+        <div
         className="task-item__title"
         ref="duration"
         tabIndex="0">{task.duration}
-      </div>
+        </div>
+        </div>
+        </div>
+
     );
   }
 
+
   renderDurationInput(task) {
     return (
-      <input
-        autoComplete="off"
-        autoFocus
-        className="task-item__input"
-        defaultValue={task.duration}
-        maxLength="64"
-        onBlur={this.saveTitle}
-        onKeyUp={this.onKeyUp}
-        ref="duration"
-        type="text"
-      />
+    <div className="cell">
+        <div className="cell">
+            <p>Duration:</p>
+        </div>
+        <div className="cell">
+
+            <input
+              autoComplete="off"
+              autoFocus
+              className="task-item__input"
+              defaultValue={task.duration}
+              maxLength="64"
+              onBlur={this.saveTitle}
+              onKeyUp={this.onKeyUp}
+              ref="duration"
+              type="text"
+            />
+        </div>
+    </div>
     );
   }
+
 
   renderTitleInput(task) {
     return (
@@ -113,7 +130,7 @@ class TaskItem extends Component {
         maxLength="64"
         onBlur={this.saveTitle}
         onKeyUp={this.onKeyUp}
-        ref={c => this.titleInput = c}
+        ref="title"
         type="text"
       />
     );
@@ -144,7 +161,7 @@ class TaskItem extends Component {
         </div>
 
         <div className="cell">
-          {this.renderDuration(task)}
+          {editing ? this.renderDurationInput(task) : this.renderDuration(task)}
         </div>
 
         <div className="cell">
