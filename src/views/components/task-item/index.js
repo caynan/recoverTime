@@ -78,6 +78,16 @@ class TaskItem extends Component {
     );
   }
 
+  renderDate(task) {
+    return (
+      <div
+        className="task-item__title"
+        ref="date"
+        tabIndex="0">{task.date}
+      </div>
+    );
+  }
+
   renderDuration(task) {
     return (
     <div className="cell">
@@ -119,6 +129,8 @@ class TaskItem extends Component {
     );
   }
 
+ 
+
 
   renderTitleInput(task) {
     return (
@@ -139,9 +151,12 @@ class TaskItem extends Component {
   render() {
     const { editing } = this.state;
     const { task } = this.props;
+  
+  
 
     return (
       <div className={classNames('task-item', {'task-item--completed': task.completed, 'task-item--editing': editing})} tabIndex="0">
+       
         <div className="cell">
           <button
             aria-hidden={editing}
@@ -158,6 +173,14 @@ class TaskItem extends Component {
 
         <div className="cell">
           {editing ? this.renderTitleInput(task) : this.renderTitle(task)}
+        </div>
+        <div className="cell">
+             <div className="cell">
+                {this.renderDate(task)}
+            <div className="cell">
+            </div>
+
+          </div>
         </div>
 
         <div className="cell">

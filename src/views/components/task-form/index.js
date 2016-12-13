@@ -11,7 +11,7 @@ class TaskForm extends Component {
     super(props, context);
 
     // Initial state
-    this.state = {title: '', duration: ''};
+    this.state = {title: '', duration: '', date: ''};
 
     // This has to be done FOR ALL methods, so we're binding them, google 'react method bing es6' to understand what is going on
     this.onChangeTitle = ::this.onChangeTitle;
@@ -22,7 +22,7 @@ class TaskForm extends Component {
 
   // Whenever we need to clear the input
   clearInput() {
-    this.setState({title: '', duration: ''});
+    this.setState({title: '', duration: '', date: ''});
   }
 
   // When we time anything on the title input, this method is triggered
@@ -36,7 +36,7 @@ class TaskForm extends Component {
   onChangeDuration(event) {
     event.preventDefault();
     const duration = this.refs.duration.value;
-    this.setState({duration: event.duration});
+    this.setState({duration: duration});
   }
 
   // As far as I know, this is only used by the tests
@@ -51,8 +51,10 @@ class TaskForm extends Component {
     event.preventDefault();
     const title = this.refs.title.value;
     const duration = this.refs.duration.value;
+     var today = new Date();
+    today = today.getDate()+'/'+parseInt(today.getMonth()+1)+'/'+today.getFullYear();
 
-    if (title.length) this.props.createTask(title, duration);
+    if (title.length) this.props.createTask(title, duration, today);
     this.clearInput();
   }
 
