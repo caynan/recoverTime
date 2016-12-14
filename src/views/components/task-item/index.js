@@ -79,11 +79,16 @@ class TaskItem extends Component {
   }
 
   renderDate(task) {
+
+    let taskDate = new Date(task.date);
+    let formattedDate = taskDate.getDate()+'/'+parseInt(taskDate.getMonth()+1)+'/'+taskDate.getFullYear();
+
     return (
       <div
         className="task-item__title"
         ref="date"
-        tabIndex="0">{task.date}
+
+        tabIndex="0">{formattedDate}
       </div>
     );
   }
@@ -129,7 +134,7 @@ class TaskItem extends Component {
     );
   }
 
- 
+
 
 
   renderTitleInput(task) {
@@ -151,12 +156,12 @@ class TaskItem extends Component {
   render() {
     const { editing } = this.state;
     const { task } = this.props;
-  
-  
+
+
 
     return (
       <div className={classNames('task-item', {'task-item--completed': task.completed, 'task-item--editing': editing})} tabIndex="0">
-       
+
         <div className="cell">
           <button
             aria-hidden={editing}

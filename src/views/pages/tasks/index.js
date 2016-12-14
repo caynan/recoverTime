@@ -121,11 +121,6 @@ export class Tasks extends Component {
   }
 
   render() {
-
-     let { tasks } = this.props;
-
-     let thisWeekTasks = this.currentWeekTasks(tasks);
-
     const page = this.state.page;
 
    //  var currentWeekData = [['Tasks', 'Hour Per Day'],
@@ -134,8 +129,11 @@ export class Tasks extends Component {
    //              [ "Task3",  1],
    //              [ "Task4", 2]];
 
-   var currentWeekData = this.formatCurrentWeekData(thisWeekTasks);
 
+    let { tasks } = this.props;
+
+    let thisWeekTasks = this.currentWeekTasks(tasks);
+    var currentWeekData = this.formatCurrentWeekData(thisWeekTasks);
     var currentWeekOptions = {
           title: 'My Daily Activities',
           pieHole: 0.6
