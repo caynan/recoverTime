@@ -88,9 +88,9 @@ export class Tasks extends Component {
   render() {
     const page = this.state.page;
 
-    var currentWeekData = [['Tasks', 'Hour Per Day'], 
-                [ "Task1", 3.5], 
-                [ "Task2", 12], 
+    var currentWeekData = [['Tasks', 'Hour Per Day'],
+                [ "Task1", 3.5],
+                [ "Task2", 12],
                 [ "Task3",  1],
                 [ "Task4", 2]];
 
@@ -100,9 +100,9 @@ export class Tasks extends Component {
         };
 
     var last3WeeksData = [['Weeks', 'Two Weeks Ago', 'Last Week', 'Current Week'],
-                          [ "Task1", 3.5, 0, 4], 
+                          [ "Task1", 3.5, 0, 4],
                           [ "Task2", 5, 12, 7],
-                          [ "Task3", 1, 5.5, 1], 
+                          [ "Task3", 1, 5.5, 1],
                           [ "Task4", 10, 0, 2]]
 
     var last3WeeksOptions = {
@@ -128,13 +128,29 @@ export class Tasks extends Component {
       partial =
       <div className={"my-pretty-chart-container"}>
         <div>Total in hours: {} </div>
-        <Chart chartType="PieChart" options = {currentWeekOptions} data={currentWeekData} graph_id="CurrenteWeekChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
+        <Chart
+           chartType="PieChart"
+           options = {currentWeekOptions}
+           data={currentWeekData}
+           graph_id="CurrenteWeekChart"
+           width={"100%"}
+           height={"400px"}
+           legend_toggle={true}
+        />
       </div>;
 
     } else if (page == "last3Weeks"){
-      partial = 
+      partial =
       <div className={"my-pretty-chart-container"}>
-        <Chart chartType="ColumnChart" options = {last3WeeksOptions} data={last3WeeksData} graph_id="ScatterChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
+        <Chart
+           chartType="ColumnChart"
+           options = {last3WeeksOptions}
+           data={last3WeeksData}
+           graph_id="ScatterChart"
+           width={"100%"}
+           height={"400px"}
+           legend_toggle={true}
+        />
       </div>;
     }
 
