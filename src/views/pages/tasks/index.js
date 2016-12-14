@@ -91,7 +91,9 @@ export class Tasks extends Component {
 
      tasks.map(task => {
         console.log('WORKED!!');
-        console.log(task.title);
+        let today = new Date(task.date)
+        today = today.getDate()+'/'+parseInt(today.getMonth()+1)+'/'+today.getFullYear();
+        console.log([task.title, task.duration, today]);
      });
 
     const page = this.state.page;

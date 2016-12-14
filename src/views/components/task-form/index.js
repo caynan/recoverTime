@@ -51,8 +51,8 @@ class TaskForm extends Component {
     event.preventDefault();
     const title = this.refs.title.value;
     const duration = this.refs.duration.value;
-     var today = new Date();
-    today = today.getDate()+'/'+parseInt(today.getMonth()+1)+'/'+today.getFullYear();
+     var today = new Date().getTime();
+   //  today = today.getDate()+'/'+parseInt(today.getMonth()+1)+'/'+today.getFullYear();
 
     if (title.length) this.props.createTask(title, duration, today);
     this.clearInput();
@@ -103,7 +103,7 @@ class TaskForm extends Component {
                   <svg className="icon" width="24" height="24" viewBox="0 0 24 24">
                       <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
                   </svg>
-            
+
                 </button>
               </div>
           </div>
