@@ -9,6 +9,8 @@ import Notification from '../../components/notification';
 import TaskFilters from '../../components/task-filters';
 import TaskForm from '../../components/task-form';
 import TaskList from '../../components/task-list';
+import {Chart} from 'react-google-charts';
+
 
 export class Tasks extends Component {
   static propTypes = {
@@ -85,6 +87,7 @@ export class Tasks extends Component {
 
   render() {
     const page = this.state.page;
+    var meus = [{dia: 4, hora: 3}, {dia: 1, hora: 5}]
 
     let partial = null;
     if (this.state.page == "allTasks") {
@@ -102,9 +105,16 @@ export class Tasks extends Component {
         {this.props.notification.display ? this.renderNotification() : null}
       </div>;
     } else if (this.state.page == "currentWeek"){
-      partial = <div>current week</div>;
+      partial =
+      <div className={"my-pretty-chart-container"}>
+        <Chart chartType="BarChart" data={[['Day', 'Hour'], [ "Monday", 3.5], [ "Tuesday", 12], [ "Wensday", 5.5], [ "Thursday", 2], [ "Friday", 8.5]]} options={{}} graph_id="ScatterChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
+      </div>;
+
     } else if (this.state.page == "last3Weeks"){
-      partial = <div>last 3 weeks</div>;
+      partial = 
+      <div className={"my-pretty-chart-container"}>
+        <Chart chartType="AreaChart" data={[['Day', '1', '2', '3'], [ "Monday", 3.5, 5, 3], [ "Tuesday", 12, 5, 2], [ "Wensday", 5.5, 8, 1], [ "Thursday", 2, 3, 9], [ "Friday", 8.5, 5, 4]]} options={{}} graph_id="ScatterChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
+      </div>;
     }
 
 
