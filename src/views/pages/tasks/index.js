@@ -87,10 +87,30 @@ export class Tasks extends Component {
 
   render() {
     const page = this.state.page;
-    var meus = [{dia: 4, hora: 3}, {dia: 1, hora: 5}]
+
+    var currentWeekData = [['Tasks', 'Hour Per Day'], 
+                [ "Task1", 3.5], 
+                [ "Task2", 12], 
+                [ "Task3",  1],
+                [ "Task4", 2]];
+
+    var currentWeekOptions = {
+          title: 'My Daily Activities',
+          pieHole: 0.6
+        };
+
+    var last3WeeksData = [['Weeks', 'Two Weeks Ago', 'Last Week', 'Current Week'],
+                          [ "Task1", 3.5, 0, 4], 
+                          [ "Task2", 5, 12, 7],
+                          [ "Task3", 1, 5.5, 1], 
+                          [ "Task4", 10, 0, 2]]
+
+    var last3WeeksOptions = {
+          title: 'Last 3 Weeks'
+        };
 
     let partial = null;
-    if (this.state.page == "allTasks") {
+    if (page == "allTasks") {
       partial = <div className="g-row">
         <TaskForm createTask={this.props.createTask} />
         <div className="g-col">
@@ -104,16 +124,17 @@ export class Tasks extends Component {
 
         {this.props.notification.display ? this.renderNotification() : null}
       </div>;
-    } else if (this.state.page == "currentWeek"){
+    } else if (page == "currentWeek"){
       partial =
       <div className={"my-pretty-chart-container"}>
-        <Chart chartType="BarChart" data={[['Day', 'Hour'], [ "Monday", 3.5], [ "Tuesday", 12], [ "Wensday", 5.5], [ "Thursday", 2], [ "Friday", 8.5]]} options={{}} graph_id="ScatterChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
+        <div>Total in hours: {} </div>
+        <Chart chartType="PieChart" options = {currentWeekOptions} data={currentWeekData} graph_id="CurrenteWeekChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
       </div>;
 
-    } else if (this.state.page == "last3Weeks"){
+    } else if (page == "last3Weeks"){
       partial = 
       <div className={"my-pretty-chart-container"}>
-        <Chart chartType="AreaChart" data={[['Day', '1', '2', '3'], [ "Monday", 3.5, 5, 3], [ "Tuesday", 12, 5, 2], [ "Wensday", 5.5, 8, 1], [ "Thursday", 2, 3, 9], [ "Friday", 8.5, 5, 4]]} options={{}} graph_id="ScatterChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
+        <Chart chartType="ColumnChart" options = {last3WeeksOptions} data={last3WeeksData} graph_id="ScatterChart"  width={"100%"} height={"400px"}  legend_toggle={true} />
       </div>;
     }
 
