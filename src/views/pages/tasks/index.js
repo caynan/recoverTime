@@ -114,7 +114,7 @@ export class Tasks extends Component {
   formatCurrentWeekData(tasks) {
      let currentWeekData = [['Tasks', 'Hour Per Day']]
      tasks.map(task => {
-       currentWeekData.push([task.title, task.duration]);
+       currentWeekData.push([task.title, +task.duration]);
      })
 
      return currentWeekData;
@@ -134,6 +134,7 @@ export class Tasks extends Component {
 
     let thisWeekTasks = this.currentWeekTasks(tasks);
     var currentWeekData = this.formatCurrentWeekData(thisWeekTasks);
+    console.log(currentWeekData);
     var currentWeekOptions = {
           title: 'My Daily Activities',
           pieHole: 0.6
