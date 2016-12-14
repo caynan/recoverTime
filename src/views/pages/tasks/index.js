@@ -86,6 +86,14 @@ export class Tasks extends Component {
 
 
   render() {
+
+     let { tasks } = this.props;
+
+     tasks.map(task => {
+        console.log('WORKED!!');
+        console.log(task.title);
+     });
+
     const page = this.state.page;
 
     var currentWeekData = [['Tasks', 'Hour Per Day'],
