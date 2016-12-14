@@ -83,26 +83,58 @@ export class Tasks extends Component {
     console.log(this.state.page);
   };
 
+  getWeekNum(timestamp) {
+      // Copy date so don't modify original
+      let d = new Date(timestamp);
+      d.setHours(0,0,0,0);
+      // Set to nearest Thursday: current date + 4 - current day number
+      // Make Sunday's day number 7
+      d.setDate(d.getDate() + 4 - (d.getDay()||7));
+      // Get first day of year
+      var yearStart = new Date(d.getFullYear(),0,1);
+      // Calculate full weeks to nearest Thursday
+      var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+      // Return array of year and week number
+      return {'currentYear': d.getFullYear(), 'weekNumber': weekNo};
+  };
 
+  currentWeekTasks(tasks) {
+      let currentWeek = this.getWeekNum(new Date().getTime());
+      let filteredTasks = tasks.filter(task => {
+      let taskWeekNumber = this.getWeekNum(task.date);
+      return (
+         taskWeekNumber.currentYear === currentWeek.currentYear &&
+         taskWeekNumber.weekNumber === currentWeek.weekNumber
+      );
+   });
+
+   return filteredTasks;
+  };
+
+  formatCurrentWeekData(tasks) {
+     let currentWeekData = [['Tasks', 'Hour Per Day']]
+     tasks.map(task => {
+       currentWeekData.push([task.title, task.duration]);
+     })
+
+     return currentWeekData;
+  }
 
   render() {
 
      let { tasks } = this.props;
 
-     tasks.map(task => {
-        console.log('WORKED!!');
-        let today = new Date(task.date)
-        today = today.getDate()+'/'+parseInt(today.getMonth()+1)+'/'+today.getFullYear();
-        console.log([task.title, task.duration, today]);
-     });
+     let thisWeekTasks = this.currentWeekTasks(tasks);
 
     const page = this.state.page;
 
-    var currentWeekData = [['Tasks', 'Hour Per Day'],
-                [ "Task1", 3.5],
-                [ "Task2", 12],
-                [ "Task3",  1],
-                [ "Task4", 2]];
+   //  var currentWeekData = [['Tasks', 'Hour Per Day'],
+   //              [ "Task1", 3.5],
+   //              [ "Task2", 12],
+   //              [ "Task3",  1],
+   //              [ "Task4", 2]];
+
+   var currentWeekData = this.formatCurrentWeekData(thisWeekTasks);
 
     var currentWeekOptions = {
           title: 'My Daily Activities',
