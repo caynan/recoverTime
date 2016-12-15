@@ -194,8 +194,13 @@ export class Tasks extends Component {
       
       if(currentWeekData[i][2] <= currentWeek || currentWeekData[i][2] >= (currentWeek - 2)){
 
+        if(currentWeekData[i][0] == ""){
+          var index = 0;
+        }
+        else{
+                  var index = parseInt(currentWeekData[i][0])
 
-        var index = parseInt(currentWeekData[i][0])
+        }
         if(currentWeekData[i][2] == (currentWeek - 2)){
           myPriority[index][1] += currentWeekData[i][1]
         }
@@ -203,6 +208,8 @@ export class Tasks extends Component {
           myPriority[index][2] += currentWeekData[i][1]
         }
         else{
+          console.log(currentWeekData[i])
+          //console.log(myPriority)
           myPriority[index][3] += currentWeekData[i][1]
         }
       }
