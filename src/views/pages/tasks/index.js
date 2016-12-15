@@ -117,6 +117,26 @@ export class Tasks extends Component {
      return currentWeekData;
   }
 
+    formatCurrentWeekDataPriority(tasks) {
+     let myPriority = [['Priority', 'Hour Per Day'], ["Low", 0], ["Medium", 0], ["High", 0]]
+     let currentWeekData = []
+     tasks.map(task => {
+       currentWeekData.push([task.priority, +task.duration]);
+     })
+     for(var i = 0; i < currentWeekData.length; i++){
+      if(currentWeekData[i][0]==="0"){
+        myPriority[1][1] += currentWeekData[i][1]
+      }
+      else if(currentWeekData[i][0]==="1"){
+        myPriority[2][1] += currentWeekData[i][1]
+      }
+      else if(currentWeekData[i][0]==="2"){
+        myPriority[3][1] += currentWeekData[i][1]
+      }
+    }
+     return myPriority;
+  }
+
   getCurrentWeekHours(tasks){
     var sum = 0;
     var myTasks = this.formatCurrentWeekData(this.currentWeekTasks(tasks));
@@ -195,7 +215,7 @@ export class Tasks extends Component {
         <Chart
            chartType="PieChart"
            options = {currentWeekOptionsP}
-           data={currentWeekData}
+           data={this.formatCurrentWeekDataPriority(tasks)}
            graph_id="CurrenteWeekChartP"
            width={"100%"}
            height={"400px"}
