@@ -68,6 +68,28 @@ class TaskItem extends Component {
     }
   }
 
+  getPriority(task){
+    if (task.priority=="0") {
+          return "Low";
+        } else if (task.priority=="1") {
+          return "Medium";
+        } else {
+          return "High";
+        }
+  }
+
+
+
+  renderPriority(task) {
+    return (
+      <div
+        className="task-item__title"
+        ref={c => this.titleText = c}
+        tabIndex="0">{this.getPriority(task)}
+      </div>
+    );
+  }
+
   renderTitle(task) {
     return (
       <div
@@ -176,10 +198,24 @@ class TaskItem extends Component {
           </button>
         </div>
 
+
+
+       
+            <div className="cell">
+              {editing ? this.renderTitleInput(task) : this.renderTitle(task)}
+            </div>
+            <div className="cell">
+                 <div className="cell">
+                </div>
+                <div className="cell">
+              {this.renderPriority(task)}
+               </div>
+            </div>
+   
+
         <div className="cell">
-          {editing ? this.renderTitleInput(task) : this.renderTitle(task)}
-        </div>
-        <div className="cell">
+             <div className="cell">
+              </div>  
              <div className="cell">
                 {this.renderDate(task)}
             <div className="cell">

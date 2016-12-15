@@ -70,17 +70,14 @@ export class Tasks extends Component {
 
   changeAllTasks() {
     this.setState({page: "allTasks"});
-    console.log(this.state.page);
   };
 
   changeCurrentWeek() {
     this.setState({page: "currentWeek"});
-    console.log(this.state.page);
   };
 
   changeLast3Weeks() {
     this.setState({page: "last3Weeks"});
-    console.log(this.state.page);
   };
 
   getWeekNum(timestamp) {
@@ -120,6 +117,113 @@ export class Tasks extends Component {
      return currentWeekData;
   }
 
+    formatCurrentWeekDataPriority(tasks) {
+     let myPriority = [['Priority', 'Hour Per Day'], ["Low", 0], ["Medium", 0], ["High", 0]]
+     let currentWeekData = []
+     tasks.map(task => {
+       currentWeekData.push([task.priority, +task.duration]);
+     })
+     for(var i = 0; i < currentWeekData.length; i++){
+      if(currentWeekData[i][0]==="0"){
+        myPriority[1][1] += currentWeekData[i][1]
+      }
+      else if(currentWeekData[i][0]==="1"){
+        myPriority[2][1] += currentWeekData[i][1]
+      }
+      else if(currentWeekData[i][0]==="2"){
+        myPriority[3][1] += currentWeekData[i][1]
+      }
+    }
+     return myPriority;
+  }
+
+
+  formatLastWeeksData(tasks) {
+    var myTasks = []
+    var myValues = []
+
+    let currentWeek = this.getWeekNum(new Date().getTime()).weekNumber;
+
+     let currentWeekData = []
+     tasks.map(task => {
+       currentWeekData.push([task.title, +task.duration, this.getWeekNum(task.date).weekNumber]);
+     })
+     for(var i = 0; i < currentWeekData.length; i++){
+      
+      if(currentWeekData[i][2] <= currentWeek || currentWeekData[i][2] >= (currentWeek - 2)){
+
+        if(!myTasks.includes(currentWeekData[i][0])){
+          myTasks.push(currentWeekData[i][0])
+          myValues.push([0,0,0])
+        }
+        var index = myTasks.indexOf(currentWeekData[i][0])
+        if(currentWeekData[i][2] == (currentWeek - 2)){
+          myValues[index][0] += currentWeekData[i][1]
+        }
+        else if(currentWeekData[i][2] == (currentWeek - 1)){
+          myValues[index][1] += currentWeekData[i][1]
+        }
+        else{
+          myValues[index][2] += currentWeekData[i][1]
+        }
+      }
+    }
+
+    var myWeek = [['Weeks', 'Two Weeks Ago', 'Last Week', 'Current Week']]
+    for(var i = 0; i < myTasks.length; i++){
+      var temp = [myTasks[i]]
+      temp.push(myValues[i][0])
+      temp.push(myValues[i][1])
+      temp.push(myValues[i][2])
+      myWeek.push(temp)
+    }
+    return myWeek
+  }
+    
+  formatLastWeeksDataPriority(tasks) {
+
+    var myPriority = [["Low", 0, 0, 0], ["Medium", 0, 0, 0], ["High", 0, 0, 0]]
+
+    let currentWeek = this.getWeekNum(new Date().getTime()).weekNumber;
+
+     let currentWeekData = []
+     tasks.map(task => {
+       currentWeekData.push([task.priority, +task.duration, this.getWeekNum(task.date).weekNumber]);
+     })
+     for(var i = 0; i < currentWeekData.length; i++){
+      
+      if(currentWeekData[i][2] <= currentWeek || currentWeekData[i][2] >= (currentWeek - 2)){
+
+
+        var index = parseInt(currentWeekData[i][0])
+        if(currentWeekData[i][2] == (currentWeek - 2)){
+          myPriority[index][1] += currentWeekData[i][1]
+        }
+        else if(currentWeekData[i][2] == (currentWeek - 1)){
+          myPriority[index][2] += currentWeekData[i][1]
+        }
+        else{
+          myPriority[index][3] += currentWeekData[i][1]
+        }
+      }
+    }
+
+    var myWeekP = [['Weeks', 'Two Weeks Ago', 'Last Week', 'Current Week'], myPriority[0], myPriority[1], myPriority[2]]
+
+  
+    return myWeekP
+}
+
+
+  getCurrentWeekHours(tasks){
+    var sum = 0;
+    var myTasks = this.formatCurrentWeekData(this.currentWeekTasks(tasks));
+    for(var i = 1; i < myTasks.length; i++){
+      sum += myTasks[i][1];
+    }
+    return sum;
+  }
+
   render() {
     const page = this.state.page;
 
@@ -134,11 +238,14 @@ export class Tasks extends Component {
 
     let thisWeekTasks = this.currentWeekTasks(tasks);
     var currentWeekData = this.formatCurrentWeekData(thisWeekTasks);
-    console.log(currentWeekData);
     var currentWeekOptions = {
-          title: 'My Daily Activities',
+          title: 'My Daily Activities by Task',
           pieHole: 0.6
         };
+    var currentWeekOptionsP = {
+      title: 'My Daily Activities by Priority',
+      pieHole: 0.6
+    };
 
     var last3WeeksData = [['Weeks', 'Two Weeks Ago', 'Last Week', 'Current Week'],
                           [ "Task1", 3.5, 0, 4],
@@ -147,8 +254,13 @@ export class Tasks extends Component {
                           [ "Task4", 10, 0, 2]]
 
     var last3WeeksOptions = {
-          title: 'Last 3 Weeks'
+          title: 'Last 3 Weeks by Task'
         };
+
+    var last3WeeksOptionsP = {
+          title: 'Last 3 Weeks by Priority'
+        };
+
 
     let partial = null;
     if (page == "allTasks") {
@@ -168,12 +280,21 @@ export class Tasks extends Component {
     } else if (page == "currentWeek"){
       partial =
       <div className={"my-pretty-chart-container"}>
-        <div>Total in hours: {} </div>
+        <div>Total in hours: {this.getCurrentWeekHours(tasks)} hour(s) </div>
         <Chart
            chartType="PieChart"
            options = {currentWeekOptions}
            data={currentWeekData}
            graph_id="CurrenteWeekChart"
+           width={"100%"}
+           height={"400px"}
+           legend_toggle={true}
+        />
+        <Chart
+           chartType="PieChart"
+           options = {currentWeekOptionsP}
+           data={this.formatCurrentWeekDataPriority(tasks)}
+           graph_id="CurrenteWeekChartP"
            width={"100%"}
            height={"400px"}
            legend_toggle={true}
@@ -186,8 +307,17 @@ export class Tasks extends Component {
         <Chart
            chartType="ColumnChart"
            options = {last3WeeksOptions}
-           data={last3WeeksData}
-           graph_id="ScatterChart"
+           data={this.formatLastWeeksData(tasks)}
+           graph_id="Last3WeeksChart"
+           width={"100%"}
+           height={"400px"}
+           legend_toggle={true}
+        />
+        <Chart
+           chartType="ColumnChart"
+           options = {last3WeeksOptionsP}
+           data={this.formatLastWeeksDataPriority(tasks)}
+           graph_id="Last3WeeksChartP"
            width={"100%"}
            height={"400px"}
            legend_toggle={true}
