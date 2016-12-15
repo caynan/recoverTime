@@ -180,6 +180,40 @@ export class Tasks extends Component {
     return myWeek
   }
     
+  formatLastWeeksDataPriority(tasks) {
+
+    var myPriority = [["Low", 0, 0, 0], ["Medium", 0, 0, 0], ["High", 0, 0, 0]]
+
+    let currentWeek = this.getWeekNum(new Date().getTime()).weekNumber;
+
+     let currentWeekData = []
+     tasks.map(task => {
+       currentWeekData.push([task.priority, +task.duration, this.getWeekNum(task.date).weekNumber]);
+     })
+     for(var i = 0; i < currentWeekData.length; i++){
+      
+      if(currentWeekData[i][2] <= currentWeek || currentWeekData[i][2] >= (currentWeek - 2)){
+
+
+        var index = parseInt(currentWeekData[i][0])
+        if(currentWeekData[i][2] == (currentWeek - 2)){
+          myPriority[index][1] += currentWeekData[i][1]
+        }
+        else if(currentWeekData[i][2] == (currentWeek - 1)){
+          myPriority[index][2] += currentWeekData[i][1]
+        }
+        else{
+          myPriority[index][3] += currentWeekData[i][1]
+        }
+      }
+    }
+
+    var myWeekP = [['Weeks', 'Two Weeks Ago', 'Last Week', 'Current Week'], myPriority[0], myPriority[1], myPriority[2]]
+
+  
+    return myWeekP
+}
+
 
   getCurrentWeekHours(tasks){
     var sum = 0;
@@ -282,7 +316,7 @@ export class Tasks extends Component {
         <Chart
            chartType="ColumnChart"
            options = {last3WeeksOptionsP}
-           data={last3WeeksData}
+           data={this.formatLastWeeksDataPriority(tasks)}
            graph_id="Last3WeeksChartP"
            width={"100%"}
            height={"400px"}
