@@ -114,12 +114,13 @@ class TaskForm extends Component {
               </div>
 
               <div className="cell">
-                <div className="cell"><p1> Priority:</p1></div>
-                <div className="cell">
-                <input type="radio" name="priority" value="2"/> High &nbsp;&nbsp;
-                <input type="radio" name="priority" value="1"/> Medium &nbsp;&nbsp;
-                <input type="radio" name="priority" value="0"/> Low &nbsp;&nbsp;
+                <div className="cell"><p1> Priority: &nbsp;&nbsp;</p1>
+                <label><input type="radio" name="priority" value="2"/> High &nbsp;&nbsp;</label>
+                <label><input type="radio" name="priority" value="1" defaultChecked="true"/> Medium &nbsp;&nbsp;</label>
+                 <label><input type="radio" name="priority" value="0"/>Low &nbsp;&nbsp;</label>
                 </div>
+               <div className="cell">
+
                 <button
                   className="btn task-item__button"
                   onClick={this.onSubmit}
@@ -129,6 +130,7 @@ class TaskForm extends Component {
                   </svg>
 
                 </button>
+                </div>
               </div>
           </div>
         </form>
