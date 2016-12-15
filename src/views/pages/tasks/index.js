@@ -70,17 +70,14 @@ export class Tasks extends Component {
 
   changeAllTasks() {
     this.setState({page: "allTasks"});
-    console.log(this.state.page);
   };
 
   changeCurrentWeek() {
     this.setState({page: "currentWeek"});
-    console.log(this.state.page);
   };
 
   changeLast3Weeks() {
     this.setState({page: "last3Weeks"});
-    console.log(this.state.page);
   };
 
   getWeekNum(timestamp) {
@@ -136,9 +133,13 @@ export class Tasks extends Component {
     var currentWeekData = this.formatCurrentWeekData(thisWeekTasks);
     console.log(currentWeekData);
     var currentWeekOptions = {
-          title: 'My Daily Activities',
+          title: 'My Daily Activities by Task',
           pieHole: 0.6
         };
+    var currentWeekOptionsP = {
+      title: 'My Daily Activities by Priority',
+      pieHole: 0.6
+    };
 
     var last3WeeksData = [['Weeks', 'Two Weeks Ago', 'Last Week', 'Current Week'],
                           [ "Task1", 3.5, 0, 4],
@@ -147,7 +148,11 @@ export class Tasks extends Component {
                           [ "Task4", 10, 0, 2]]
 
     var last3WeeksOptions = {
-          title: 'Last 3 Weeks'
+          title: 'Last 3 Weeks by Task'
+        };
+
+    var last3WeeksOptionsP = {
+          title: 'Last 3 Weeks by Priority'
         };
 
     let partial = null;
@@ -178,6 +183,15 @@ export class Tasks extends Component {
            height={"400px"}
            legend_toggle={true}
         />
+        <Chart
+           chartType="PieChart"
+           options = {currentWeekOptionsP}
+           data={currentWeekData}
+           graph_id="CurrenteWeekChartP"
+           width={"100%"}
+           height={"400px"}
+           legend_toggle={true}
+        />
       </div>;
 
     } else if (page == "last3Weeks"){
@@ -187,7 +201,16 @@ export class Tasks extends Component {
            chartType="ColumnChart"
            options = {last3WeeksOptions}
            data={last3WeeksData}
-           graph_id="ScatterChart"
+           graph_id="Last3WeeksChart"
+           width={"100%"}
+           height={"400px"}
+           legend_toggle={true}
+        />
+        <Chart
+           chartType="ColumnChart"
+           options = {last3WeeksOptionsP}
+           data={last3WeeksData}
+           graph_id="Last3WeeksChartP"
            width={"100%"}
            height={"400px"}
            legend_toggle={true}
