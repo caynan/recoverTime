@@ -117,6 +117,15 @@ export class Tasks extends Component {
      return currentWeekData;
   }
 
+  getCurrentWeekHours(tasks){
+    var sum = 0;
+    var myTasks = this.formatCurrentWeekData(this.currentWeekTasks(tasks));
+    for(var i = 1; i < myTasks.length; i++){
+      sum += myTasks[i][1];
+    }
+    return sum;
+  }
+
   render() {
     const page = this.state.page;
 
@@ -131,7 +140,7 @@ export class Tasks extends Component {
 
     let thisWeekTasks = this.currentWeekTasks(tasks);
     var currentWeekData = this.formatCurrentWeekData(thisWeekTasks);
-    console.log(currentWeekData);
+   // console.log(currentWeekData);
     var currentWeekOptions = {
           title: 'My Daily Activities by Task',
           pieHole: 0.6
@@ -173,7 +182,7 @@ export class Tasks extends Component {
     } else if (page == "currentWeek"){
       partial =
       <div className={"my-pretty-chart-container"}>
-        <div>Total in hours: {} </div>
+        <div>Total in hours: {this.getCurrentWeekHours(tasks)} hour(s) </div>
         <Chart
            chartType="PieChart"
            options = {currentWeekOptions}
