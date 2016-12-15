@@ -11,8 +11,8 @@ describe('tasks', () => {
     beforeEach(() => {
       tasks = new TasksState({
         list: new List([
-          new Task({completed: false, title: 'task-1'}),
-          new Task({completed: true, title: 'task-2'})
+          new Task({completed: false, title: 'task-1', duration: 60}),
+          new Task({completed: true, title: 'task-2', duration: 5})
         ])
       });
     });

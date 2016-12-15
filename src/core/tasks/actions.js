@@ -14,9 +14,9 @@ import {
 } from './action-types';
 
 
-export function createTask(title) {
+export function createTask(title, duration, date) {
   return dispatch => {
-    taskList.push({completed: false, title})
+    taskList.push({completed: false, title, duration, date})
       .catch(error => dispatch(createTaskError(error)));
   };
 }
@@ -80,9 +80,9 @@ export function updateTaskError(error) {
   };
 }
 
-export function updateTask(task, changes) {
+export function updateTask(task, changes, date) {
   return dispatch => {
-    taskList.update(task.key, changes)
+    taskList.update(task.key, changes, date)
       .catch(error => dispatch(updateTaskError(error)));
   };
 }

@@ -39,10 +39,11 @@ class TaskItem extends Component {
   saveTitle(event) {
     if (this.state.editing) {
       const { task } = this.props;
-      const title = event.target.value.trim();
-
-      if (title.length && title !== task.title) {
-        this.props.updateTask(task, {title});
+     event.preventDefault();
+    const title = this.refs.title.value;
+    const duration = this.refs.duration.value;
+      if (title.length && duration !== task.duration) {
+        this.props.updateTask(task, {title, duration});
       }
 
       this.stopEditing();
@@ -77,6 +78,65 @@ class TaskItem extends Component {
     );
   }
 
+  renderDate(task) {
+
+    let taskDate = new Date(task.date);
+    let formattedDate = taskDate.getDate()+'/'+parseInt(taskDate.getMonth()+1)+'/'+taskDate.getFullYear();
+
+    return (
+      <div
+        className="task-item__title"
+        ref="date"
+
+        tabIndex="0">{formattedDate}
+      </div>
+    );
+  }
+
+  renderDuration(task) {
+    return (
+    <div className="cell">
+     <div className="cell">
+
+        <div
+        className="task-item__title"
+        ref="duration"
+        tabIndex="0">{task.duration}
+        </div>
+        </div>
+        </div>
+
+    );
+  }
+
+
+  renderDurationInput(task) {
+    return (
+    <div className="cell">
+        <div className="cell">
+            <p>Duration:</p>
+        </div>
+        <div className="cell">
+
+            <input
+              autoComplete="off"
+              autoFocus
+              className="task-item__input"
+              defaultValue={task.duration}
+              maxLength="64"
+              onBlur={this.saveTitle}
+              onKeyUp={this.onKeyUp}
+              ref="duration"
+              type="number"
+            />
+        </div>
+    </div>
+    );
+  }
+
+
+
+
   renderTitleInput(task) {
     return (
       <input
@@ -87,7 +147,7 @@ class TaskItem extends Component {
         maxLength="64"
         onBlur={this.saveTitle}
         onKeyUp={this.onKeyUp}
-        ref={c => this.titleInput = c}
+        ref="title"
         type="text"
       />
     );
@@ -97,8 +157,11 @@ class TaskItem extends Component {
     const { editing } = this.state;
     const { task } = this.props;
 
+
+
     return (
       <div className={classNames('task-item', {'task-item--completed': task.completed, 'task-item--editing': editing})} tabIndex="0">
+
         <div className="cell">
           <button
             aria-hidden={editing}
@@ -115,6 +178,18 @@ class TaskItem extends Component {
 
         <div className="cell">
           {editing ? this.renderTitleInput(task) : this.renderTitle(task)}
+        </div>
+        <div className="cell">
+             <div className="cell">
+                {this.renderDate(task)}
+            <div className="cell">
+            </div>
+
+          </div>
+        </div>
+
+        <div className="cell">
+          {editing ? this.renderDurationInput(task) : this.renderDuration(task)}
         </div>
 
         <div className="cell">

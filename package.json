@@ -29,10 +29,13 @@
   },
   "dependencies": {
     "babel-polyfill": "~6.13.0",
+    "c3-react": "^0.1.13",
     "classnames": "~2.2.5",
     "immutable": "~3.8.1",
     "react": "~15.3.2",
     "react-dom": "~15.3.2",
+    "react-google-charts": "^1.2.1",
+    "react-pathjs-chart": "^0.3.5",
     "react-redux": "~4.4.5",
     "react-router": "~2.8.1",
     "react-router-redux": "~4.0.6",

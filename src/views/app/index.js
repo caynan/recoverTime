@@ -18,7 +18,10 @@ export class App extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+     // this is equivalent to this.context.router, we're basically, getting the router object from
+     // the context
     const { router } = this.context;
+    // we receive a auth object from props, we use it to check if the user is authenticated
     const { auth } = this.props;
 
     if (auth.authenticated && !nextProps.auth.authenticated) {
