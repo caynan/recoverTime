@@ -6,5 +6,6 @@ export const Task = new Record({
   key: null,
   title: null,
   duration: null,
-  date: null
+  date: null,
+  priority: null
 });

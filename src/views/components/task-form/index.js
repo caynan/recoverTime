@@ -11,7 +11,7 @@ class TaskForm extends Component {
     super(props, context);
 
     // Initial state
-    this.state = {title: '', duration: '', date: ''};
+    this.state = {title: '', duration: '', date: '', priority: ''};
 
     // This has to be done FOR ALL methods, so we're binding them, google 'react method bing es6' to understand what is going on
     this.onChangeTitle = ::this.onChangeTitle;
@@ -22,7 +22,7 @@ class TaskForm extends Component {
 
   // Whenever we need to clear the input
   clearInput() {
-    this.setState({title: '', duration: '', date: ''});
+    this.setState({title: '', duration: '', date: '', priority: ''});
   }
 
   // When we time anything on the title input, this method is triggered
@@ -46,17 +46,34 @@ class TaskForm extends Component {
     }
   }
 
+  getRadioCheckedValue (priority){
+     var oRadio = document.forms[0].elements[priority];
+     for(var i = 0; i < oRadio.length; i++)
+     {
+        if(oRadio[i].checked)
+        {
+           return oRadio[i].value;
+        }
+     }
+   
+     return '';
+}
+
   // TODO: It's called when we submit the form, note that now it's only handling the title, you have to modify
   onSubmit(event) {
     event.preventDefault();
     const title = this.refs.title.value;
     const duration = this.refs.duration.value;
+    const priority = this.getRadioCheckedValue("priority");
+
      var today = new Date().getTime();
    //  today = today.getDate()+'/'+parseInt(today.getMonth()+1)+'/'+today.getFullYear();
 
-    if (title.length) this.props.createTask(title, duration, today);
+    if (title.length) this.props.createTask(title, duration, today, priority);
     this.clearInput();
   }
+
+
 
 
   // TODO: We need to investigate what the `ref` attr is doing/used for.
@@ -95,7 +112,14 @@ class TaskForm extends Component {
                  value={this.state.duration}
                 />
               </div>
+
               <div className="cell">
+                <div className="cell"><p1> Priority:</p1></div>
+                <div className="cell">
+                <input type="radio" name="priority" value="2"/> High &nbsp;&nbsp;
+                <input type="radio" name="priority" value="1"/> Medium &nbsp;&nbsp;
+                <input type="radio" name="priority" value="0"/> Low &nbsp;&nbsp;
+                </div>
                 <button
                   className="btn task-item__button"
                   onClick={this.onSubmit}
